@@ -1,0 +1,1 @@
+I could have used sitk.GetPixel() and sitk.SetPixel(), but I decided against it because I wanted to explore more into numpy's ndarrays since I have been needing to learn them for other things recently.

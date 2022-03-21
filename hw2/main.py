@@ -1,3 +1,14 @@
+"""I could have used sitk.GetPixel() and sitk.SetPixel(), 
+but I decided against it because I wanted to explore more 
+into numpy's ndarrays since I have been needing to learn 
+them for other things recently.
+
+Also - it seems like sitk's GetImageFromArray implicitly 
+converts every pixel value to Float64, so I could not figure
+out a way to save the image besides going into ImageJ and 
+saving them manually.
+"""
+
 from __future__ import annotations
 
 from typing import Optional
@@ -17,6 +28,10 @@ def gaussian_transform(
     a: int = 1,
     b: Optional[np.ndarray] = sitk.GetArrayFromImage(_default_image()),
 ):
+    """The main function. Applies a gaussian transformation to a given `b`
+    image with constraints μ, σ, θ, and a, respectively. Given images are 
+    generated at the bottom of this file.
+    """
     μ = np.asarray(μ)
     σ = np.asarray(σ)
 
@@ -25,6 +40,7 @@ def gaussian_transform(
     Σ = np.array([[σ[0] ** 2, 0], [0, σ[1] ** 2]])
     Σ_inv = np.linalg.inv(Σ)
     
+    # Non-destructive: create a new ndarray
     res = np.zeros(b.shape)
     for i, x in enumerate(b):
         for j, y in enumerate(x):
